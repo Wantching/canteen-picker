@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今天吃什么？</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        #result {
+            font-size: 24px;
+            margin: 20px 0;
+            padding: 10px;
+            color: #1890ff;
+            min-height: 40px;
+        }
+        button {
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #40a9ff;
+        }
+        button:active {
+            background-color: #096dd9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>今天吃什么？</h1>
+        <div id="result">点击下方按钮开始随机抽取</div>
+        <button onclick="selectRandomCanteen()">随机抽取</button>
+    </div>
+
+    <script>
+        // 食堂列表
+        const canteens = [
+            '家一', '家二', '家三', '家四',
+            '农一', '农二', '农三',
+            '燕南', '燕南地下',
+            '学五一楼', '学五二楼',
+            '勺一', '勺二',
+            '学一'
+        ];
+
+        let hasSelected = false;
+        let selectedCanteen = '';
+        
+        function selectRandomCanteen() {
+            const resultElement = document.getElementById('result');
+            
+            if (hasSelected) {
+                resultElement.textContent = '别再抽了，好好学习，王书豪你个大笨蛋！';
+                return;
+            }
+            
+            // 如果没有食堂数据，显示提示信息
+            if (canteens.length === 0) {
+                resultElement.textContent = '请先添加食堂数据';
+                return;
+            }
+
+            // 添加动画效果
+            let times = 0;
+            const maxTimes = 20;
+            const interval = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * canteens.length);
+                resultElement.textContent = canteens[randomIndex];
+                times++;
+                
+                if (times >= maxTimes) {
+                    clearInterval(interval);
+                    hasSelected = true;
+                    selectedCanteen = canteens[randomIndex];
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
